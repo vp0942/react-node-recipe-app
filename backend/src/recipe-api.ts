@@ -1,5 +1,7 @@
 const apiKey = process.env.API_KEY;
 
+// Function to search for recipes using the Spoonacular API
+// https://spoonacular.com/food-api/docs#Search-Recipes-Complex
 export const searchRecipes = async (searchTerm: string, page: number) => {
   if(!apiKey) {
     throw new Error('API key not found');
@@ -26,6 +28,8 @@ export const searchRecipes = async (searchTerm: string, page: number) => {
   }
 };
 
+// Function to get a summary of a recipe using the Spoonacular API
+// https://spoonacular.com/food-api/docs#Summarize-Recipe
 export const getRecipeSummary = async (recipeId: string) => {
   if(!apiKey) {
     throw new Error('API key not found');
@@ -47,7 +51,27 @@ export const getRecipeSummary = async (recipeId: string) => {
     console.error("Error getting recipe summary", error);
     return null;
   }
-
-
 };
+
+// Function to get favourite recipes from the database
+// https://spoonacular.com/food-api/docs#Get-Recipe-Information-Bulk
+export const getFavouriteRecipesByIDs = async (ids: string[]) => {
+  if(!apiKey) {
+    throw new Error('API key not found');
+  }
+
+  const url = new URL("https://api.spoonacular.com/recipes/informationBulk");
+
+  const params = {
+    apiKey,
+    ids: ids.join(","),
+  };
+
+  url.search = new URLSearchParams(params).toString();
+
+  const searchResponse = await fetch(url);
+  const json = await searchResponse.json();
+
+  return {result: json};
+}
 
