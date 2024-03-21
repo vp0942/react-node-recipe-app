@@ -57,10 +57,12 @@ app.post("/api/recipes/favourite", async (req, res) => {
 // GET /api/recipes/favourite endpoint to get all the favourite recipes from the database
 app.get("/api/recipes/favourite", async (req, res) => {
   try {
+    // The findMany function returns all the favourite recipes in the database
     const recipes = await prismaClient.favouriteRecipes.findMany();
     const recipeIds = recipes.map((recipe) => recipe.recipeId.toString());
 
     // We use the getFavouriteRecipesByIDs function from the recipe-api.ts file to get the details of the favourite recipes
+    // From the Spoonacular API
     const favourites = await RecipeAPI.getFavouriteRecipesByIDs(recipeIds);
 
     return res.json(favourites);

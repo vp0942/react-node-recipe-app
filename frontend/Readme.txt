@@ -21,3 +21,5 @@ Next steps:
 More information in our documentation:
 https://pris.ly/d/getting-started
 
+npm i react-icons
+
